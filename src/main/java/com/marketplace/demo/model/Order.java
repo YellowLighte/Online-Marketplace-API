@@ -1,8 +1,6 @@
 package com.marketplace.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -10,9 +8,17 @@ import java.util.Date;
 public class Order {
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderID;
+
+    @Column
     private double totalCost;
+
+    @Column
     private Date orderDate;
+
+    @Column
     private boolean orderComplete;
 
     public Order(Long orderID, double totalCost, Date orderDate, boolean orderComplete) {

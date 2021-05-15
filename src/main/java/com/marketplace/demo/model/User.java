@@ -1,24 +1,44 @@
 package com.marketplace.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userID;
+
+    @Column
     private String userName;
+
+    @Column
     private String email;
+
+    @Column
     private String password;
+
+    @Column
     private String firstName;
+
+    @Column
     private String lastName;
+
+    @Column
     private String street1;
+
+    @Column
     private String street2;
+
+    @Column
     private String city;
+
+    @Column
     private String state;
+
+    @Column
     private String zip;
 
     public User(Long userID, String userName, String email, String password, String firstName, String lastName, String street1, String street2, String city, String state, String zip) {

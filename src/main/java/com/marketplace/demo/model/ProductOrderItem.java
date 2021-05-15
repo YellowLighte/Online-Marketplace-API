@@ -1,15 +1,17 @@
 package com.marketplace.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "product_order_items")
 public class ProductOrderItem {
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private int quantity;
 
     public ProductOrderItem(Long id, int quantity) {

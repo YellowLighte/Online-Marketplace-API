@@ -1,18 +1,26 @@
 package com.marketplace.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
 public class Product {
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productID;
+
+    @Column
     private String name;
+
+    @Column
     private String imagePath;
+
+    @Column
     private double price;
+
+    @Column
     private String color;
 
     public Product(Long productID, String name, String imagePath, double price, String color) {
