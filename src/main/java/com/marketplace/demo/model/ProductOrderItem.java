@@ -1,7 +1,14 @@
 package com.marketplace.demo.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "product_order_items")
 public class ProductOrderItem {
 
+    @Id
     private Long id;
     private int quantity;
 

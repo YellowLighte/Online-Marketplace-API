@@ -1,7 +1,14 @@
 package com.marketplace.demo.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
     private Long userID;
     private String userName;
     private String email;
