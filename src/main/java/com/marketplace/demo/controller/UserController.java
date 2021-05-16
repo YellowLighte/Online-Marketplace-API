@@ -1,29 +1,27 @@
 package com.marketplace.demo.controller;
 
+import com.marketplace.demo.model.User;
 import com.marketplace.demo.repository.UserRepository;
+import com.marketplace.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/auth/users")
 public class UserController {
 
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     //http://localhost:9092/auth/users/register
     @PostMapping("/register")
-    public String createUser(){
+    public User createUser(@RequestBody User userObject){
         System.out.println("calling createUser");
-        return "new customer should be created.";
-        //return userService.createUser(userObject);
+        return userService.createUser(userObject);
     }
 
     //http://localhost:9092/auth/users/login
@@ -32,9 +30,5 @@ public class UserController {
         System.out.println("user logging in");
         return "user should be logging in";
     }
-//    public ResponseEntity<Object> loginUser(@RequestBody LoginRequest loginRequest){
-//        System.out.println("calling loginUser =====>");
-//        return userService.loginUser(loginRequest);
-//    }
 
 }

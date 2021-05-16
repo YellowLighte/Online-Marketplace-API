@@ -1,15 +1,11 @@
 package com.marketplace.demo.controller;
 
-import com.marketplace.demo.exception.InformationExistException;
-import com.marketplace.demo.exception.InformationNotFoundException;
 import com.marketplace.demo.model.Order;
-import com.marketplace.demo.repository.OrderRepository;
 import com.marketplace.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api")
