@@ -1,5 +1,7 @@
 package com.marketplace.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,16 @@ public class ProductOrderItem {
 
     @Column
     private int quantity;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     public ProductOrderItem(Long id, int quantity) {
         this.id = id;
@@ -38,11 +50,37 @@ public class ProductOrderItem {
         this.quantity = quantity;
     }
 
+//    @Override
+//    public String toString() {
+//        return "ProductOrderItem{" +
+//                "id=" + id +
+//                ", quantity=" + quantity +
+//                '}';
+//    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     @Override
     public String toString() {
         return "ProductOrderItem{" +
                 "id=" + id +
                 ", quantity=" + quantity +
+                ", order=" + order +
+                ", product=" + product +
                 '}';
     }
 }

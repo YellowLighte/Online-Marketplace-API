@@ -1,6 +1,9 @@
 package com.marketplace.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +21,7 @@ public class User {
     private String email;
 
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column
@@ -40,6 +44,9 @@ public class User {
 
     @Column
     private String zip;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Order> orders;
 
     public User(Long userID, String userName, String email, String password, String firstName, String lastName, String street1, String street2, String city, String state, String zip) {
         this.userID = userID;

@@ -4,12 +4,13 @@ import com.marketplace.demo.exception.InformationNotFoundException;
 import com.marketplace.demo.model.Product;
 import com.marketplace.demo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@RestController
+@RequestMapping(path = "/api")
 public class ProductController {
 
     private ProductRepository productRepository;
@@ -32,5 +33,11 @@ public class ProductController {
         } else {
             throw new InformationNotFoundException("product with id " + productId + " not found.");
         }
+    }
+
+    //localhost:9092/api/products
+    @PostMapping("/products")
+    public Product createProduct(@RequestBody Product productObject) {
+        return productRepository.save(productObject);
     }
 }

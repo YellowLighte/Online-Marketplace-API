@@ -2,6 +2,7 @@ package com.marketplace.demo.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -20,6 +21,10 @@ public class Order {
 
     @Column
     private boolean orderComplete;
+
+    @OneToMany(mappedBy = "order")
+    private List<ProductOrderItem> orderProducts;
+
 
     public Order(Long orderID, double totalCost, Date orderDate, boolean orderComplete) {
         this.orderID = orderID;
@@ -63,6 +68,7 @@ public class Order {
         this.orderComplete = orderComplete;
     }
 
+
     @Override
     public String toString() {
         return "Order{" +
@@ -70,6 +76,15 @@ public class Order {
                 ", totalCost=" + totalCost +
                 ", orderDate=" + orderDate +
                 ", orderComplete=" + orderComplete +
+                ", orderProducts=" + orderProducts +
                 '}';
+    }
+
+    public List<ProductOrderItem> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(List<ProductOrderItem> orderProducts) {
+        this.orderProducts = orderProducts;
     }
 }
