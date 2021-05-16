@@ -1,9 +1,11 @@
 package com.marketplace.demo.controller;
 
 import com.marketplace.demo.model.User;
+import com.marketplace.demo.model.loginRequest.LoginRequest;
 import com.marketplace.demo.repository.UserRepository;
 import com.marketplace.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,9 +28,9 @@ public class UserController {
 
     //http://localhost:9092/auth/users/login
     @PostMapping("/login")
-    public String loginUser() {
-        System.out.println("user logging in");
-        return "user should be logging in";
+    public ResponseEntity<Object> loginUser(@RequestBody LoginRequest loginRequest){
+        System.out.println("calling loginUser =====>");
+        return userService.loginUser(loginRequest);
     }
 
 }
