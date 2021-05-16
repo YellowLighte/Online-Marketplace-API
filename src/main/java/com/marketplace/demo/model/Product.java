@@ -27,10 +27,6 @@ public class Product {
     @Column
     private String color;
 
-    @OneToMany(mappedBy = "product", orphanRemoval = true)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<ProductOrderItem> productsInOrder;
-
     public Product(Long productID, String name, String imagePath, double price, String color) {
         this.productID = productID;
         this.name = name;

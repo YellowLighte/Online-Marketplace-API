@@ -50,13 +50,6 @@ public class ProductOrderItem {
         this.quantity = quantity;
     }
 
-//    @Override
-//    public String toString() {
-//        return "ProductOrderItem{" +
-//                "id=" + id +
-//                ", quantity=" + quantity +
-//                '}';
-//    }
 
     public Order getOrder() {
         return order;

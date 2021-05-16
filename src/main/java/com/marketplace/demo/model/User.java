@@ -45,8 +45,6 @@ public class User {
     @Column
     private String zip;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Order> orders;
 
     public User(Long userID, String userName, String email, String password, String firstName, String lastName, String street1, String street2, String city, String state, String zip) {
         this.userID = userID;
