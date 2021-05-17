@@ -1,5 +1,7 @@
 package com.marketplace.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +26,13 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<ProductOrderItem> orderProducts;
+
+    // Test to connect Orders to User (Many to One relationship)
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
 
     public Order(Long orderID, double totalCost, Date orderDate, boolean orderComplete) {
@@ -86,5 +95,14 @@ public class Order {
 
     public void setOrderProducts(List<ProductOrderItem> orderProducts) {
         this.orderProducts = orderProducts;
+    }
+
+    // Test 1
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
