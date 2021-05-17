@@ -3,10 +3,7 @@ package com.marketplace.demo.controller;
 import com.marketplace.demo.model.Category;
 import com.marketplace.demo.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,5 +35,16 @@ public class CategoryController {
     @GetMapping(path = "/categories/{categoryId}")
     public Optional getCategory(@PathVariable Long categoryId) {
         return categoryService.getCategory(categoryId);
+    }
+
+    // http://localhost:9092/api/categories
+    @PostMapping("/categories")
+    public Category createCategory(@RequestBody Category categoryObject) {
+        return categoryService.createCategory(categoryObject);
+    }
+
+    @DeleteMapping("/categories/{categoryId}")
+    public String deleteCategory(@PathVariable Long categoryId) {
+        return categoryService.deleteCategory(categoryId);
     }
 }
