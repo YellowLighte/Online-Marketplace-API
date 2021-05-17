@@ -35,4 +35,10 @@ public class OrderController {
         return orderService.getOrder(orderId);
     }
 
+    // http://localhost:9092/api/orders/{orderId}
+    @PutMapping("/orders/{orderId}")
+    public Order updateOrderStatus(@PathVariable Long orderId) {
+        return orderService.updateOrderStatus(orderId);
+    }
+
 }

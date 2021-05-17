@@ -8,6 +8,8 @@ import com.marketplace.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +23,15 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    //TODO Make checks and throw exceptions if user and/or order does not exist.
     public List<Order> getOrders() {
         MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Order> orderList = orderRepository.findByUser_UserID(myUserDetails.getUser().getUserID());
-        return orderList;
+
+        if (orderList.isEmpty()) {
+            throw new InformationNotFoundException("No existing orders found for user " + myUserDetails.getUser().getUserName());
+        } else {
+            return orderList;
+        }
     }
 
     public Order getOrder(Long orderId) {
@@ -37,7 +43,7 @@ public class OrderService {
         }
     }
 
-    //TODO: complete logic for below. Perhaps ask instructor during stand up?
+    //TODO: Ask Matt about this - directing the User to the existing Order if they try to create a new order
     public Order createOrder(Order orderObject) {
         // check to see if user has existing order where orderComplete bool is false
 //             if so, direct to that open order
@@ -45,13 +51,25 @@ public class OrderService {
         MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Order> order = Optional.ofNullable(orderRepository
                 .findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
-        System.out.println("This is the user that requested the new order: " + myUserDetails.getUser());
-        System.out.println("This is the order that was just returned: " + order);
+
         if (order.isPresent()) {
             throw new InformationExistException("There is an open order that has not been completed.");
         } else {
             orderObject.setUser(myUserDetails.getUser());
             return orderRepository.save(orderObject);
+        }
+    }
+
+    public Order updateOrderStatus(Long orderId) {
+
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Order> order = Optional.ofNullable(orderRepository.findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
+
+        if (!order.isPresent()) {
+            throw new InformationNotFoundException("No open order with id " + orderId + " found.");
+        } else {
+            order.get().setOrderComplete(true);
+            return orderRepository.save(order.get());
         }
     }
 }
