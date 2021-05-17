@@ -15,8 +15,9 @@ import java.util.function.Function;
 @Service
 //Secret key to make token
 public class JWTUtils {
-//    @Value("${jwt.secret}")
-    String SECRET_KEY = "TestKey"; //Secret key to make token
+//    String SECRET_KEY = "TestKey"; //Secret key to make token
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
     //Token Generation staring
     public String generateToken(UserDetails userDetails) {
