@@ -43,6 +43,7 @@ public class CategoryController {
         return categoryService.createCategory(categoryObject);
     }
 
+    // http://localhost:9092/api/categories/{categoryId}
     @DeleteMapping("/categories/{categoryId}")
     public String deleteCategory(@PathVariable Long categoryId) {
         return categoryService.deleteCategory(categoryId);

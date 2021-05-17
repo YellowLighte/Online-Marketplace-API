@@ -1,5 +1,6 @@
 package com.marketplace.demo.service;
 
+import com.marketplace.demo.exception.InformationExistException;
 import com.marketplace.demo.exception.InformationNotFoundException;
 import com.marketplace.demo.exception.RequiresHigherPermissionException;
 import com.marketplace.demo.model.Category;
@@ -40,9 +41,15 @@ public class CategoryService {
 
     public Category createCategory(Category categoryObject) {
         MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Category category = categoryRepository.findByName(categoryObject.getName());
 
         if (myUserDetails.getUser().isAdmin()) {
-            return categoryRepository.save(categoryObject);
+            if (category != null) {
+                throw new InformationExistException("A category with the name " + categoryObject.getName() + " already exists.");
+
+            } else {
+                return categoryRepository.save(categoryObject);
+            }
         } else {
             throw new RequiresHigherPermissionException("Must be logged into an account with a higher permission level.");
         }
