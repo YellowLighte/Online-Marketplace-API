@@ -25,6 +25,9 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Column
+    private boolean isAdmin;
+
     // Test to connect User to Orders (One to Many relationship)
     @OneToMany(mappedBy = "user")
     private Set<Order> orders;
@@ -38,6 +41,7 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+        this.isAdmin = false;
     }
 
     public Long getUserID() {
@@ -82,4 +86,11 @@ public class User {
                 '}';
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
 }
