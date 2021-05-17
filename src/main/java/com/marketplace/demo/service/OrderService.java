@@ -35,7 +35,10 @@ public class OrderService {
     }
 
     public Order getOrder(Long orderId) {
-        Optional<Order> order = orderRepository.findById(orderId);
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        Optional<Order> order = Optional.ofNullable(orderRepository.findByUserAndOrderID(myUserDetails.getUser(), orderId));
+
         if (order.isPresent()) {
             return order.get();
         } else {

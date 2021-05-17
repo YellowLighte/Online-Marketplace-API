@@ -12,5 +12,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     //Order findByUser_UserID(Long id);
     List<Order> findByUser_UserID(Long id);
     Order findByOrderCompleteAndUser_UserID(boolean bool, Long id);
+    Order findByUserAndOrderID(User user, Long id);
 
 }

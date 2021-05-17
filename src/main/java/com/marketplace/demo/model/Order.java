@@ -27,7 +27,6 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<ProductOrderItem> orderProducts;
 
-    // Test to connect Orders to User (Many to One relationship)
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -97,7 +96,7 @@ public class Order {
         this.orderProducts = orderProducts;
     }
 
-    // Test 1
+
     public User getUser() {
         return user;
     }

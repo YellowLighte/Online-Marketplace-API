@@ -6,9 +6,13 @@ import com.marketplace.demo.model.ProductOrderItem;
 import com.marketplace.demo.repository.OrderRepository;
 import com.marketplace.demo.repository.ProductOrderItemRepository;
 import com.marketplace.demo.repository.ProductRepository;
+import com.marketplace.demo.service.ProductOrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,36 +20,27 @@ import java.util.Optional;
 @RequestMapping(path = "/api")
 public class ProductOrderItemController {
 
-    private ProductOrderItemRepository productOrderItemRepository;
-    private OrderRepository orderRepository;
-    private ProductRepository productRepository;
+    private ProductOrderItemService productOrderItemService;
 
     @Autowired
-    public void setOrderRepository(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public void setProductOrderItemService(ProductOrderItemService productOrderItemService) {
+        this.productOrderItemService = productOrderItemService;
     }
 
-    @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    // http://localhost:9092/api/cart/{productId}
+    @PostMapping("/cart/{productId}")
+    public ProductOrderItem createCartItem(@PathVariable Long productId, @RequestBody ProductOrderItem orderItem) {
+        return productOrderItemService.createCartItem(productId, orderItem);
     }
 
-    @Autowired
-    public void setProductOrderItemRepository(ProductOrderItemRepository productOrderItemRepository) {
-        this.productOrderItemRepository = productOrderItemRepository;
+    // http://localhost:9092/api/cart/{productOrderItemId}
+    @DeleteMapping("/cart/{productOrderItemId}")
+    public ResponseEntity<HashMap> deleteCartItem(@PathVariable Long productOrderItemId){
+        String status = productOrderItemService.deleteCartItem(productOrderItemId);
+        HashMap message = new HashMap();
+        message.put("message", status);
+        return new ResponseEntity<HashMap>(message, HttpStatus.OK);
     }
 
 
-    //TODO: Create checks so that it'll throw errors if the product or order number doesn't exist.
-    // http://localhost:9092/api/cart/{orderId}/{productId}
-    @PostMapping("/cart/{orderId}/{productId}")
-    public ProductOrderItem create(@PathVariable Long orderId, @PathVariable Long productId,
-                                   @RequestBody ProductOrderItem orderItem) {
-        Optional<Order> order = orderRepository.findById(orderId);
-        Optional<Product> product = productRepository.findById(productId);
-        orderItem.setOrder(order.get());
-        orderItem.setProduct(product.get());
-        orderItem.setQuantity(orderItem.getQuantity());
-        return productOrderItemRepository.save(orderItem);
-    }
 }
