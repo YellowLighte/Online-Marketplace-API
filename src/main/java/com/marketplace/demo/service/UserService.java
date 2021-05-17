@@ -7,11 +7,12 @@ import com.marketplace.demo.model.loginRequest.LoginRequest;
 import com.marketplace.demo.model.response.LoginResponse;
 import com.marketplace.demo.repository.UserRepository;
 import com.marketplace.demo.security.JWTUtils;
-import com.marketplace.demo.security.MyUserDetailsService;
+import com.marketplace.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -64,6 +65,29 @@ public class UserService {
 
         }catch(NullPointerException e){
             throw new InformationNotFoundException("user with email address " + loginRequest.getEmail() + " not found");
+        }
+    }
+
+    public String updatePassword(String newPassword){
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = userRepository.findUserByEmail(myUserDetails.getUser().getEmail());
+        if (currentUser != null){
+            currentUser.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(currentUser);
+            return "Password successfully updated.";
+        }
+        return "Error updating the password";
+    }
+
+    public String updateEmail(String newEmail){
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = myUserDetails.getUser();
+        if (currentUser.getEmail().equals(newEmail)){
+            throw new InformationExistException("The submitted email matches the current email address on file.");
+        } else {
+            currentUser.setEmail(newEmail);
+            userRepository.save(currentUser);
+            return "Email updated successfully";
         }
     }
 

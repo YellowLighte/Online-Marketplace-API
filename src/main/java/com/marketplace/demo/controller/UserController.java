@@ -33,4 +33,18 @@ public class UserController {
         return userService.loginUser(loginRequest);
     }
 
+    //http://localhost:9092/auth/users/reset
+    @PutMapping("/reset")
+    public String updatePassword(@RequestBody String newPassword){
+        System.out.println("calling updatePassword ==>");
+        return userService.updatePassword(newPassword);
+    }
+
+    //http://localhost:9092/auth/users/email
+    @PutMapping("/email")
+    public String updateEmail(@RequestBody String newEmail){
+        System.out.println("calling updateEmail ==>");
+        return userService.updateEmail(newEmail);
+    }
+
 }

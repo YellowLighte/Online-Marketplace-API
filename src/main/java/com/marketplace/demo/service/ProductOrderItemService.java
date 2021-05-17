@@ -11,9 +11,6 @@ import com.marketplace.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Optional;
 
@@ -39,8 +36,6 @@ public class ProductOrderItemService {
         this.productOrderItemRepository = productOrderItemRepository;
     }
 
-    //TODO: Create checks so that it'll throw errors if the product or order number doesn't exist.
-    // Ask Matt if there is a better way to do this than passing the orderId and productId through the Path
     public ProductOrderItem createCartItem(Long productId, ProductOrderItem orderItem) {
 
         MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

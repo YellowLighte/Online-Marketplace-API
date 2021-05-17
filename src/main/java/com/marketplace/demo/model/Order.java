@@ -33,7 +33,6 @@ public class Order {
     private User user;
 
 
-
     public Order(Long orderID, double totalCost, Date orderDate, boolean orderComplete) {
         this.orderID = orderID;
         this.totalCost = totalCost;
