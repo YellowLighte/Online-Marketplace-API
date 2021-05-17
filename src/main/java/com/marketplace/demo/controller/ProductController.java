@@ -14,12 +14,6 @@ import java.util.Optional;
 @RequestMapping(path = "/api")
 public class ProductController {
 
-//    private ProductRepository productRepository;
-//
-//    @Autowired
-//    public void setProductRepository(ProductRepository productRepository) {
-//        this.productRepository = productRepository;
-//    }
     private ProductService productService;
 
     @Autowired
@@ -38,10 +32,10 @@ public class ProductController {
         return productService.getProduct(productId);
     }
 
-    //localhost:9092/api/products
-    @PostMapping("/products")
-    public Product createProduct(@RequestBody Product productObject) {
-        return productService.createProduct(productObject);
+    // http://localhost:9092/api/{categoryId}/products
+    @PostMapping("/{categoryId}/products")
+    public Product createProduct(@PathVariable Long categoryId, @RequestBody Product productObject) {
+        return productService.createProduct(categoryId, productObject);
     }
 
 
