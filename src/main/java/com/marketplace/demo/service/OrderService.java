@@ -3,6 +3,7 @@ package com.marketplace.demo.service;
 import com.marketplace.demo.exception.InformationExistException;
 import com.marketplace.demo.exception.InformationNotFoundException;
 import com.marketplace.demo.model.Order;
+import com.marketplace.demo.model.ProductOrderItem;
 import com.marketplace.demo.repository.OrderRepository;
 import com.marketplace.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,5 +84,23 @@ public class OrderService {
             order.get().setOrderComplete(true);
             return orderRepository.save(order.get());
         }
+    }
+
+    // Test to get cart price.
+    public double calculateCartCost() {
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Order> order = Optional.ofNullable(orderRepository.findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
+
+        List<ProductOrderItem> itemsInCart = order.get().getOrderProducts();
+
+        double totalCost = 0;
+
+        if (!itemsInCart.isEmpty()) {
+            for (ProductOrderItem item : itemsInCart) {
+                totalCost += item.getProduct().getPrice() * item.getQuantity();
+            }
+        }
+
+        return totalCost;
     }
 }

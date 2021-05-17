@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,5 +70,22 @@ public class ProductOrderItemService {
         productOrderItemRepository.deleteById(productOrderItemId);
         return "Item deleted successfully.";
     }
+
+//    // Test to get cart price.
+//    public double calculateCartCost() {
+//        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Optional<Order> order = Optional.ofNullable(orderRepository.findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
+//
+//        List<ProductOrderItem> itemsInCart = productOrderItemRepository.findByOrder_OrderID(order.get().getOrderID());
+//
+//        double totalCost = 0;
+//
+//        for (ProductOrderItem item : itemsInCart) {
+//            totalCost += item.getProduct().getPrice() * item.getQuantity();
+//        }
+//
+//        return totalCost;
+//    }
+
 
 }
