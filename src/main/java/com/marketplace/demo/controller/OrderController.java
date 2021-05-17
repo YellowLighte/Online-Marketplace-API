@@ -36,6 +36,12 @@ public class OrderController {
         return orderService.getOrder(orderId);
     }
 
+    // http://localhost:9092/api/orders/closed
+    @GetMapping("/orders/closed")
+    public List<Order> getClosedOrders() {
+        return orderService.getClosedOrders();
+    }
+
     // http://localhost:9092/api/orders/{orderId}
     @PutMapping("/orders/{orderId}")
     public Order updateOrderStatus(@PathVariable Long orderId) {

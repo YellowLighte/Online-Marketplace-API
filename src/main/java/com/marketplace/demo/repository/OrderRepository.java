@@ -9,6 +9,7 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUser_UserID(Long id);
     Order findByOrderCompleteAndUser_UserID(boolean bool, Long id);
+    List<Order> findByUser_UserIDAndOrderComplete(Long id, boolean bool);
     Order findByUserAndOrderID(User user, Long id);
 
 }

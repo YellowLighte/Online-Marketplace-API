@@ -44,6 +44,17 @@ public class OrderService {
         }
     }
 
+    public List<Order> getClosedOrders() {
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Order> orderList = orderRepository.findByUser_UserIDAndOrderComplete(myUserDetails.getUser().getUserID(), true);
+
+        if (orderList.isEmpty()) {
+            throw new InformationNotFoundException("No closed orders for user " + myUserDetails.getUser().getUserName() + ".");
+        }
+
+        return orderList;
+    }
+
     //TODO: Ask Matt about this - directing the User to the existing Order if they try to create a new order
     public Order createOrder(Order orderObject) {
         // check to see if user has existing order where orderComplete bool is false
