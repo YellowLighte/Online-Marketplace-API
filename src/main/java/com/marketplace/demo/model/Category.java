@@ -1,6 +1,7 @@
 package com.marketplace.demo.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -16,6 +17,9 @@ public class Category {
 
     @Column
     private String imagePath;
+
+    @OneToMany(mappedBy = "category")
+    private Set<Product> products;
 
     public Category(Long categoryID, String name, String imagePath) {
         this.categoryID = categoryID;
@@ -50,12 +54,22 @@ public class Category {
         this.imagePath = imagePath;
     }
 
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
                 "categoryID=" + categoryID +
                 ", name='" + name + '\'' +
                 ", imagePath='" + imagePath + '\'' +
+                ", products=" + products +
                 '}';
     }
 }

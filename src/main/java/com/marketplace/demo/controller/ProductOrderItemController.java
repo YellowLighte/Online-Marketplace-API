@@ -1,20 +1,12 @@
 package com.marketplace.demo.controller;
 
-import com.marketplace.demo.model.Order;
-import com.marketplace.demo.model.Product;
 import com.marketplace.demo.model.ProductOrderItem;
-import com.marketplace.demo.repository.OrderRepository;
-import com.marketplace.demo.repository.ProductOrderItemRepository;
-import com.marketplace.demo.repository.ProductRepository;
 import com.marketplace.demo.service.ProductOrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api")

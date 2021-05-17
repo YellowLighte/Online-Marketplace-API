@@ -1,5 +1,6 @@
 package com.marketplace.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -26,6 +27,11 @@ public class Product {
 
     @Column
     private String color;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Product(Long productID, String name, String imagePath, double price, String color) {
         this.productID = productID;
@@ -78,6 +84,14 @@ public class Product {
         this.color = color;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -86,6 +100,7 @@ public class Product {
                 ", imagePath='" + imagePath + '\'' +
                 ", price=" + price +
                 ", color='" + color + '\'' +
+                ", category=" + category +
                 '}';
     }
 }
