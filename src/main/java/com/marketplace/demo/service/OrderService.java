@@ -21,8 +21,11 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
+    //TODO Make checks and throw exceptions if user and/or order does not exist.
     public List<Order> getOrders() {
-        return orderRepository.findAll();
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Order> orderList = orderRepository.findByUser_UserID(myUserDetails.getUser().getUserID());
+        return orderList;
     }
 
     public Order getOrder(Long orderId) {
@@ -39,13 +42,13 @@ public class OrderService {
         // check to see if user has existing order where orderComplete bool is false
 //             if so, direct to that open order
             // if not, create new order
-//        Order order = orderRepository.findByOrderComplete(false);
         MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<Order> order = Optional.ofNullable(orderRepository.findByUser_UserID(myUserDetails.getUser().getUserID()));
+        Optional<Order> order = Optional.ofNullable(orderRepository
+                .findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
         System.out.println("This is the user that requested the new order: " + myUserDetails.getUser());
         System.out.println("This is the order that was just returned: " + order);
         if (order.isPresent()) {
-            throw new InformationExistException("I guess there's an existing order, even though the database is empty");
+            throw new InformationExistException("There is an open order that has not been completed.");
         } else {
             orderObject.setUser(myUserDetails.getUser());
             return orderRepository.save(orderObject);
