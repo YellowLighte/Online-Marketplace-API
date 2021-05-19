@@ -49,5 +49,4 @@ public class CategoryController {
         return categoryService.deleteCategory(categoryId);
     }
 
-    @GetMapping("/categories/{categoryId}/")
 }
