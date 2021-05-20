@@ -43,8 +43,8 @@ public class OrderController {
         return orderService.getClosedOrders();
     }
 
-    // http://localhost:9092/api/orders
-    @GetMapping("/orders")
+    // http://localhost:9092/api/orders/open
+    @GetMapping("/orders/open")
     public Optional<Order> getOpenOrder() {
         return orderService.getOpenOrder();
     }
