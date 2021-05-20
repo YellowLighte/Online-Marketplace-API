@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api")
@@ -40,6 +41,12 @@ public class OrderController {
     @GetMapping("/orders/closed")
     public List<Order> getClosedOrders() {
         return orderService.getClosedOrders();
+    }
+
+    // http://localhost:9092/api/orders
+    @GetMapping("/orders")
+    public Optional<Order> getOpenOrder() {
+        return orderService.getOpenOrder();
     }
 
     // http://localhost:9092/api/orders/{orderId}

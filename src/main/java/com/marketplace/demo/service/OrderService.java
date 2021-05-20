@@ -3,7 +3,6 @@ package com.marketplace.demo.service;
 import com.marketplace.demo.exception.InformationExistException;
 import com.marketplace.demo.exception.InformationNotFoundException;
 import com.marketplace.demo.model.Order;
-import com.marketplace.demo.model.ProductOrderItem;
 import com.marketplace.demo.repository.OrderRepository;
 import com.marketplace.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +55,20 @@ public class OrderService {
         return orderList;
     }
 
+    public Optional<Order> getOpenOrder() {
+        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<Order> order = Optional.ofNullable(orderRepository.findByUser_UserIDAndOrderComplete(myUserDetails.getUser().getUserID(), false).get(0));
+
+        if (!order.isPresent()) {
+            throw new InformationNotFoundException("No open orders for user " + myUserDetails.getUser().getUserName() + ".");
+        }
+
+        return order;
+    }
+
     //TODO: Ask Matt about this - directing the User to the existing Order if they try to create a new order
     public Order createOrder(Order orderObject) {
-        // check to see if user has existing order where orderComplete bool is false
-//             if so, direct to that open order
-            // if not, create new order
+
         MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Order> order = Optional.ofNullable(orderRepository
                 .findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
@@ -87,20 +95,20 @@ public class OrderService {
     }
 
     // Test to get cart price.
-    public double calculateCartCost() {
-        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<Order> order = Optional.ofNullable(orderRepository.findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
-
-        List<ProductOrderItem> itemsInCart = order.get().getOrderProducts();
-
-        double totalCost = 0;
-
-        if (!itemsInCart.isEmpty()) {
-            for (ProductOrderItem item : itemsInCart) {
-                totalCost += item.getProduct().getPrice() * item.getQuantity();
-            }
-        }
-
-        return totalCost;
-    }
+//    public double calculateCartCost() {
+//        MyUserDetails myUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Optional<Order> order = Optional.ofNullable(orderRepository.findByOrderCompleteAndUser_UserID(false, myUserDetails.getUser().getUserID()));
+//
+//        List<ProductOrderItem> itemsInCart = order.get().getOrderProducts();
+//
+//        double totalCost = 0;
+//
+//        if (!itemsInCart.isEmpty()) {
+//            for (ProductOrderItem item : itemsInCart) {
+//                totalCost += item.getProduct().getPrice() * item.getQuantity();
+//            }
+//        }
+//
+//        return totalCost;
+//    }
 }
